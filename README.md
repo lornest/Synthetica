@@ -16,21 +16,26 @@ Synthetica is an ambitious platform designed to bridge human creativity with AI 
 git clone https://github.com/lornest/Synthetica.git
 cd Synthetica
 
-# Run the command-line demo
-node demo.js
+# Run the command-line demos
+node demo.js                    # Basic demo
+node enhanced_demo.js          # Advanced AI capabilities
 
-# Or start the interactive web interface
+# Start the interactive visualization server
 node server.js
-# Then open http://localhost:3001 in your browser
+
+# Open in browser:
+# http://localhost:3001/         → Interactive Insight Canvas (D3.js)
+# http://localhost:3001/classic  → Classic web interface
 ```
 
 ### 🧠 What It Actually Does
 
-- **Automatically discovers connections** between ideas across different domains
-- **AI-powered similarity analysis** finds patterns you might miss
-- **Cross-domain insights** like connecting "Neural Networks" (technology) with "Brain Structure" (biology)
-- **Interactive web interface** for adding knowledge and visualizing connections
-- **Real-time synthesis** of novel combinations and breakthrough suggestions
+- **Interactive Knowledge Visualization** - Explore your ideas as a beautiful network graph
+- **AI-Powered Connection Discovery** - Automatically finds patterns across different domains
+- **Cross-Domain Breakthrough Insights** - Connects "Neural Networks" (technology) with "Brain Structure" (biology)
+- **Real-Time Network Evolution** - Watch connections form as you add new knowledge
+- **Novel Synthesis Suggestions** - AI recommends breakthrough combinations with reasoning
+- **Professional Visualization Interface** - D3.js-powered interactive canvas with smooth animations
 
 ## The Problem We're Solving
 
@@ -104,17 +109,21 @@ Gardens aren't built - they're grown, tended, and evolved. Ideas, like plants, t
 
 ### 📁 Current Implementation
 
-- **Core Engine** (`src/core/knowledge_graph.py`) - Python implementation with NetworkX
-- **Interactive Demo** (`demo.js`) - Command-line demonstration of AI discovery
-- **Web Interface** (`web/index.html`) - Beautiful, modern UI for knowledge exploration
-- **Development Server** (`server.js`) - Local server for testing and development
+- **Advanced AI Engine** (`src/core/advanced_similarity.js`) - Multi-factor cross-domain analysis
+- **Interactive Visualization** (`web/js/graph-visualization.js`) - D3.js network canvas
+- **Enhanced Web Interface** (`web/insight-canvas.html`) - Professional-grade exploration UI  
+- **Knowledge Graph Core** (`src/core/knowledge_graph.py`) - Python/JS implementations
+- **Command-Line Demos** (`demo.js`, `enhanced_demo.js`) - AI discovery demonstrations
+- **Development Server** (`server.js`) - Multi-interface serving with routing
 
 ### 🎯 Proven Capabilities
 
-✅ **Cross-Domain Discovery**: Automatically found connection between "Brain Structure" (biology) and "Neural Networks" (technology)  
-✅ **Pattern Recognition**: Identifies shared concepts and structural similarities  
-✅ **Strength Analysis**: Quantifies connection strength and provides explanations  
-✅ **Interactive Exploration**: Add knowledge nodes and watch connections form in real-time
+✅ **Visual Knowledge Networks**: Interactive D3.js graph showing domain-colored nodes and connections  
+✅ **Real-Time AI Discovery**: Watch as advanced AI finds cross-domain patterns automatically  
+✅ **Breakthrough Insight Detection**: Discovered "Neural Networks" ↔ "Brain Structure" connection (0.559 strength)  
+✅ **Metaphorical Bridge Analysis**: Identifies concepts like "network," "intelligence" that enable synthesis  
+✅ **Novel Combination Suggestions**: AI recommends "How might philosophy principles revolutionize technology?"  
+✅ **Professional Interface**: Production-ready visualization with smooth interactions and detailed analytics
 
 ## Contributing
 

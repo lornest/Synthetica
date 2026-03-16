@@ -49,13 +49,19 @@ const server = http.createServer((req, res) => {
 
     let filePath = '.' + req.url;
     
-    // Default to index.html
+    // Route handling
     if (filePath === './') {
-        filePath = './web/index.html';
-    } else if (filePath === './demo.js') {
-        filePath = './demo.js';
+        filePath = './web/insight-canvas.html'; // Default to new interactive canvas
+    } else if (filePath === './classic') {
+        filePath = './web/index.html'; // Original simple interface
+    } else if (filePath === './demo.js' || filePath === './enhanced_demo.js') {
+        // Serve demo files from root
+        filePath = '.' + req.url;
     } else if (filePath.startsWith('./web/')) {
         // Already has web prefix
+    } else if (filePath.startsWith('./src/')) {
+        // Serve source files
+        filePath = '.' + req.url;
     } else {
         // Add web prefix for other files
         filePath = './web' + req.url;
@@ -72,14 +78,18 @@ server.listen(PORT, () => {
     console.log('🚀 Synthetica Development Server Started!');
     console.log('=' .repeat(50));
     console.log(`📍 Server running at: http://localhost:${PORT}`);
-    console.log('🌐 Open your browser and start exploring the Living Knowledge Garden!');
+    console.log('🌐 Available Interfaces:');
+    console.log(`   • Interactive Canvas: http://localhost:${PORT}/ (default)`);
+    console.log(`   • Classic Interface: http://localhost:${PORT}/classic`);
     console.log('');
-    console.log('🛠️  Development Features:');
-    console.log('   • Interactive web interface');
-    console.log('   • Real-time knowledge graph updates');  
-    console.log('   • AI-powered connection discovery');
-    console.log('   • Cross-domain insight visualization');
+    console.log('🛠️  Enhanced Features:');
+    console.log('   ✨ Interactive D3.js network visualization');
+    console.log('   🧠 Advanced AI-powered connection discovery');  
+    console.log('   🎨 Domain-colored clustering and cross-domain highlighting');
+    console.log('   🔍 Real-time node exploration and synthesis suggestions');
+    console.log('   📊 Live statistics and connection strength analysis');
     console.log('');
+    console.log('🌱 The Interactive Insight Canvas is ready for exploration!');
     console.log('Press Ctrl+C to stop the server');
 });
 
