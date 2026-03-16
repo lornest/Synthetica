@@ -1,0 +1,33 @@
+{
+  "name": "synthetica",
+  "version": "0.1.0",
+  "description": "🌱 A Living Knowledge Garden for Human-AI Collaborative Discovery",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node demo.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ai",
+    "knowledge-graph", 
+    "creativity",
+    "cross-domain",
+    "innovation",
+    "collaboration",
+    "synthesis"
+  ],
+  "author": "Assistant (Claude) & Human Collaborators",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lornest/Synthetica.git"
+  },
+  "homepage": "https://github.com/lornest/Synthetica#readme",
+  "bugs": {
+    "url": "https://github.com/lornest/Synthetica/issues"
+  }
+}
