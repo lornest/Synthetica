@@ -51,11 +51,7 @@ const server = http.createServer((req, res) => {
     
     // Route handling
     if (filePath === './') {
-        filePath = './web/phase2-integrated-canvas.html'; // Default to Phase 2 integrated canvas
-    } else if (filePath === './phase1') {
-        filePath = './web/insight-canvas.html'; // Phase 1 D3.js canvas
-    } else if (filePath === './classic') {
-        filePath = './web/index.html'; // Original simple interface
+        filePath = './web/index.html'; // Main Synthetica interface
     } else if (filePath === './demo.js' || filePath === './enhanced_demo.js' || filePath === './phase1-demo-simple.js') {
         // Serve demo files from root
         filePath = '.' + req.url;
@@ -80,20 +76,18 @@ server.listen(PORT, () => {
     console.log('🚀 Synthetica Development Server Started!');
     console.log('=' .repeat(50));
     console.log(`📍 Server running at: http://localhost:${PORT}`);
-    console.log('🌐 Available Interfaces:');
-    console.log(`   🚀 Phase 2 Integrated: http://localhost:${PORT}/ (default)`);
-    console.log(`   🎨 Phase 1 Canvas: http://localhost:${PORT}/phase1`);
-    console.log(`   📝 Classic Interface: http://localhost:${PORT}/classic`);
+    console.log('🌐 Synthetica Interactive Interface:');
+    console.log(`   🚀 Main Interface: http://localhost:${PORT}/`);
     console.log('');
-    console.log('🛠️  Phase 2 Features:');
-    console.log('   🌟 Complete Phase 1 integration with visualization');
-    console.log('   📝 Multi-format content processing (text, markdown, code, links, images, audio)');
+    console.log('🛠️  Features:');
+    console.log('   🌟 Multi-format content processing (text, markdown, code, links, images, audio)');
     console.log('   📚 Advanced version control with branching and merging');
-    console.log('   🧠 Enhanced AI discovery with cross-domain insights');
-    console.log('   🎨 Beautiful D3.js visualization with real-time updates');
-    console.log('   🔍 Advanced search across all content types and history');
+    console.log('   🧠 AI-powered cross-domain connection discovery');
+    console.log('   🎨 Interactive knowledge network visualization');
+    console.log('   🔍 Advanced search across all content types');
+    console.log('   💡 Synthesis opportunity identification');
     console.log('');
-    console.log('🌱 Phase 2: Where Foundation Meets Visual Magic!');
+    console.log('🌱 Your Interactive Knowledge Garden Awaits!');
     console.log('Press Ctrl+C to stop the server');
 });
 
