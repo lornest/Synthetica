@@ -26,8 +26,9 @@ class D3NetworkGraph {
         this.svg = this.container.append('svg')
             .attr('width', '100%')
             .attr('height', '100%')
-            .attr('viewBox', `0 0 ${this.width} ${this.height}`)
-            .style('background', 'transparent');
+            .style('background', 'rgba(255,0,0,0.1)'); // Red tint to see SVG area
+            
+        console.log('SVG created with dimensions:', this.width, 'x', this.height);
         
         // Create groups for links and nodes
         this.linkGroup = this.svg.append('g').attr('class', 'links');
@@ -97,14 +98,23 @@ class D3NetworkGraph {
         this.linkGroup.selectAll('*').remove();
         this.nodeGroup.selectAll('*').remove();
         
-        // Always add a test element to see if SVG is working
+        // Always add test elements to see if SVG is working
+        this.svg.append('circle')
+            .attr('cx', 100)
+            .attr('cy', 100)
+            .attr('r', 30)
+            .attr('fill', 'red')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 3);
+            
         this.svg.append('text')
-            .attr('x', this.width / 2)
-            .attr('y', 50)
+            .attr('x', 100)
+            .attr('y', 200)
             .attr('text-anchor', 'middle')
-            .attr('fill', '#e53e3e')
-            .style('font-size', '14px')
-            .text(`D3.js Test: ${this.nodes.length} nodes, ${this.links.length} links`);
+            .attr('fill', 'blue')
+            .style('font-size', '20px')
+            .style('font-weight', 'bold')
+            .text(`TEST: ${this.nodes.length} nodes, ${this.links.length} links`);
             
         if (this.nodes.length === 0) {
             this.svg.append('text')
