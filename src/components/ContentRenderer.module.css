@@ -1,0 +1,138 @@
+.plainText {
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.markdown {
+  line-height: 1.6;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin: 0.5em 0 0.25em;
+  color: #2d3748;
+}
+
+.markdown h1 { font-size: 1.2rem; }
+.markdown h2 { font-size: 1.05rem; }
+.markdown h3 { font-size: 0.95rem; }
+
+.markdown a {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+.markdown code {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+.markdown strong {
+  font-weight: 600;
+}
+
+.codeBlock {
+  position: relative;
+}
+
+.codeLang {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.5rem;
+  font-size: 0.65rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.codeContent {
+  background: #1a202c;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.codeContent pre {
+  margin: 0;
+}
+
+.codeContent code {
+  font-family: inherit;
+}
+
+/* Keyword highlighting from ContentProcessor.highlightCode */
+.codeContent :global(.keyword) {
+  color: #9f7aea;
+  font-weight: 600;
+}
+
+.linkCard {
+  background: rgba(102, 126, 234, 0.05);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.linkAnchor {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.linkAnchor:hover {
+  text-decoration: underline;
+}
+
+.linkMeta {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.imageContainer {
+  text-align: center;
+}
+
+.image {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.imageAlt {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: #718096;
+  font-style: italic;
+}
+
+.audioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.audioPlayer {
+  width: 100%;
+}
+
+.transcript {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.transcript p {
+  margin: 0.25rem 0 0;
+  color: #4a5568;
+}

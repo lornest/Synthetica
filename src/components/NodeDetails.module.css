@@ -1,0 +1,176 @@
+.card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.badges {
+  margin-bottom: 0.5rem;
+}
+
+.typeBadge {
+  display: inline-block;
+  background: #4299e1;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+}
+
+.domainBadge {
+  display: inline-block;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+.contentPreview {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  border-left: 3px solid #e2e8f0;
+  line-height: 1.5;
+}
+
+.conceptSection {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.conceptTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.conceptTag {
+  background: #e2e8f0;
+  color: #4a5568;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+.meta {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #718096;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btnEdit,
+.btnDelete,
+.btnSave,
+.btnCancel,
+.btnConfirmDelete {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btnEdit {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.btnEdit:hover {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.btnDelete {
+  background: rgba(229, 62, 62, 0.1);
+  color: #e53e3e;
+  border-color: rgba(229, 62, 62, 0.3);
+}
+
+.btnDelete:hover {
+  background: rgba(229, 62, 62, 0.2);
+}
+
+.btnSave {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btnCancel {
+  background: #edf2f7;
+  color: #4a5568;
+}
+
+.btnConfirmDelete {
+  background: #e53e3e;
+  color: white;
+}
+
+.confirmRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.confirmText {
+  font-size: 0.8rem;
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+/* Edit mode form */
+.formGroup {
+  margin-bottom: 0.75rem;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.formGroup textarea {
+  min-height: 60px;
+  resize: vertical;
+}

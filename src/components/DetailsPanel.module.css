@@ -1,0 +1,21 @@
+.panel {
+  padding: 1.5rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  color: #4a5568;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.placeholder {
+  text-align: center;
+  color: #718096;
+  padding: 2rem 0;
+}

@@ -1,0 +1,99 @@
+.container {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.label {
+  color: #718096;
+}
+
+.versionTag {
+  background: #edf2f7;
+  color: #4a5568;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.7rem;
+}
+
+.arrow {
+  color: #a0aec0;
+}
+
+.fieldDiff {
+  margin-bottom: 0.5rem;
+}
+
+.fieldName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.diffRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.removed {
+  background: rgba(229, 62, 62, 0.08);
+  border-left: 3px solid #e53e3e;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #4a5568;
+  word-break: break-word;
+}
+
+.added {
+  background: rgba(72, 187, 120, 0.08);
+  border-left: 3px solid #48bb78;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #4a5568;
+  word-break: break-word;
+}
+
+.actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.restoreBtn {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  transition: all 0.15s ease;
+}
+
+.restoreBtn:hover {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.empty {
+  text-align: center;
+  color: #718096;
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+}
