@@ -843,7 +843,7 @@
             nodes.forEach(node => {
                 const color = domainColors[node.domain] || '#718096';
                 networkHTML += `
-                    <div class="simple-node" onclick="selectNode('${node.id}')" style="
+                    <div class="simple-node" data-node-id="${node.id}" style="
                         background: ${color};
                         color: white;
                         padding: 1rem;
@@ -853,7 +853,7 @@
                         text-align: center;
                         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
                         transition: transform 0.2s ease;
-                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    ">
                         <div style="font-weight: bold; margin-bottom: 0.5rem; font-size: 0.9rem;">
                             ${node.contentType === 'code' ? '💻' : node.contentType === 'link' ? '🔗' : 
                               node.contentType === 'image' ? '🖼️' : node.contentType === 'audio' ? '🎵' : 
@@ -864,6 +864,22 @@
                         </div>
                     </div>
                 `;
+            });
+            
+            networkHTML += '</div>';
+            
+            container.innerHTML = networkHTML;
+            
+            // Add event listeners to nodes after rendering
+            container.querySelectorAll('.simple-node').forEach(nodeElement => {
+                const nodeId = nodeElement.dataset.nodeId;
+                nodeElement.addEventListener('click', () => selectNode(nodeId));
+                nodeElement.addEventListener('mouseenter', () => {
+                    nodeElement.style.transform = 'scale(1.05)';
+                });
+                nodeElement.addEventListener('mouseleave', () => {
+                    nodeElement.style.transform = 'scale(1)';
+                });
             });
             
             networkHTML += '</div>';
@@ -1098,22 +1114,39 @@
         }
 
         function selectNode(nodeId) {
+            console.log('Selecting node:', nodeId); // Debug log
             const node = kg.nodes.get(nodeId);
-            if (!node) return;
+            if (!node) {
+                console.log('Node not found:', nodeId);
+                return;
+            }
+            
+            console.log('Found node:', node); // Debug log
             
             // Highlight selected node
             document.querySelectorAll('.simple-node').forEach(n => {
                 n.style.border = 'none';
             });
-            event.target.style.border = '3px solid #ffd700';
+            
+            const nodeElement = document.querySelector(`[data-node-id="${nodeId}"]`);
+            if (nodeElement) {
+                nodeElement.style.border = '3px solid #ffd700';
+            }
             
             displayNodeDetails(node);
         }
 
         function displayNodeDetails(node) {
+            console.log('Displaying details for node:', node); // Debug log
+            
             const nodeDetails = document.getElementById('nodeDetails');
             const nodeConnections = document.getElementById('nodeConnections');
             const synthesisOpportunities = document.getElementById('synthesisOpportunities');
+            
+            if (!nodeDetails || !nodeConnections || !synthesisOpportunities) {
+                console.log('Right panel elements not found');
+                return;
+            }
             
             // Node details
             nodeDetails.innerHTML = `
@@ -1155,7 +1188,7 @@
                             const isXDomain = node.domain !== otherNode.domain;
                             
                             return `
-                                <div class="search-result" onclick="selectNode('${otherNode.id}')" style="
+                                <div class="search-result" data-target-node="${otherNode.id}" style="
                                     border-left: 3px solid ${isXDomain ? '#e53e3e' : '#667eea'};
                                     cursor: pointer;
                                 ">
