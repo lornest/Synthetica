@@ -807,18 +807,49 @@
         }
 
         function initializeVisualization() {
+            console.log('Initializing visualization...');
+            console.log('D3 available:', typeof d3 !== 'undefined');
+            console.log('D3NetworkGraph available:', typeof D3NetworkGraph !== 'undefined');
+            
             // Initialize D3 network graph
-            window.networkGraph = new D3NetworkGraph('visualization');
-            renderNetworkGraph();
+            try {
+                window.networkGraph = new D3NetworkGraph('visualization');
+                console.log('D3NetworkGraph created successfully');
+                renderNetworkGraph();
+            } catch (error) {
+                console.error('Failed to create D3NetworkGraph:', error);
+                
+                // Fallback to simple visualization
+                document.getElementById('visualization').innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center; color: #718096;">
+                        <h3 style="color: #e53e3e; margin-bottom: 1rem;">⚠️ Visualization Error</h3>
+                        <p style="margin-bottom: 1rem;">D3.js network graph failed to initialize.</p>
+                        <p style="font-size: 0.875rem;">Error: ${error.message}</p>
+                        <div style="margin-top: 2rem;">
+                            <button onclick="location.reload()" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                Reload Page
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         function renderNetworkGraph() {
-            if (!window.networkGraph) return;
+            console.log('renderNetworkGraph called');
+            console.log('networkGraph exists:', !!window.networkGraph);
+            
+            if (!window.networkGraph) {
+                console.log('No networkGraph available, skipping render');
+                return;
+            }
             
             const nodes = Array.from(kg.nodes.values());
             const connections = kg.connections;
             
             console.log('Rendering network with', nodes.length, 'nodes and', connections.length, 'connections');
+            console.log('Nodes:', nodes);
+            console.log('Connections:', connections);
             
             window.networkGraph.updateData(nodes, connections);
         }
@@ -1249,7 +1280,12 @@
         
         // Initialize when page loads
         window.addEventListener('load', () => {
-            initializePhase2();
+            console.log('Page loaded, starting initialization');
+            
+            // Wait a bit for all scripts to load
+            setTimeout(() => {
+                initializePhase2();
+            }, 100);
         });
         
         // Handle window resize

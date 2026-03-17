@@ -7,6 +7,17 @@
 
 class D3NetworkGraph {
     constructor(containerId) {
+        console.log('D3NetworkGraph constructor called with:', containerId);
+        
+        if (typeof d3 === 'undefined') {
+            throw new Error('D3.js is not loaded');
+        }
+        
+        const element = document.getElementById(containerId);
+        if (!element) {
+            throw new Error(`Element with id '${containerId}' not found`);
+        }
+        
         this.container = d3.select(`#${containerId}`);
         this.width = 800;
         this.height = 600;
