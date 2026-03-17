@@ -598,7 +598,7 @@
                     content,
                     processedContent,
                     domain,
-                    tags: [...tags, ...processedContent.extractedConcepts.slice(0, 5)],
+                    tags: [...(Array.isArray(tags) ? tags : []), ...processedContent.extractedConcepts.slice(0, 5)],
                     contentType,
                     metadata,
                     created_at: new Date()
@@ -808,15 +808,25 @@
 
         function initializeVisualization() {
             const viz = document.getElementById('visualization');
-            viz.innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; color: #718096;">
-                    <div id="simpleNetwork" style="width: 100%; height: 100%; position: relative;">
-                        <!-- Simple network will be rendered here -->
-                    </div>
-                </div>
-            `;
+            viz.innerHTML = `<svg id="networkGraph" style="width: 100%; height: 100%;"></svg>`;
             
-            renderSimpleNetwork();
+            // Initialize D3 force simulation
+            const svg = d3.select('#networkGraph');
+            const width = viz.offsetWidth;
+            const height = viz.offsetHeight;
+            
+            // Create the simulation
+            window.simulation = d3.forceSimulation()
+                .force('link', d3.forceLink().id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(40));
+            
+            // Create containers for links and nodes
+            window.linkGroup = svg.append('g').attr('class', 'links');
+            window.nodeGroup = svg.append('g').attr('class', 'nodes');
+            
+            renderNetworkGraph();
         }
 
         function renderSimpleNetwork() {
