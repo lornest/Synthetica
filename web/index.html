@@ -918,9 +918,13 @@
             console.log('Connections:', connections);
             
             try {
+                console.log('About to call networkGraph.updateData...');
                 window.networkGraph.updateData(nodes, connections);
+                console.log('networkGraph.updateData completed successfully');
             } catch (error) {
                 console.error('Error updating network graph:', error);
+                console.error('Error stack:', error.stack);
+                console.log('Falling back to card visualization');
                 createFallbackVisualization();
             }
         }
