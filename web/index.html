@@ -1364,8 +1364,9 @@
         
         // Handle window resize
         window.addEventListener('resize', () => {
-            if (integratedCanvas && integratedCanvas.visualization) {
-                integratedCanvas.visualization.resize();
+            if (window.networkGraph) {
+                // Could add resize logic here if needed
+                console.log('Window resized');
             }
         });
     </script>
