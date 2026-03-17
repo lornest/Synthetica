@@ -29,12 +29,17 @@ class D3NetworkGraph {
         this.height = 600;
         
         // Create SVG
+        console.log('About to create SVG...');
+        console.log('Container node before SVG:', this.container.node());
+        
         this.svg = this.container.append('svg')
             .attr('width', '100%')
             .attr('height', '100%')
             .style('background', 'rgba(255,0,0,0.1)'); // Red tint to see SVG area
             
-        console.log('SVG created with dimensions:', this.width, 'x', this.height);
+        console.log('SVG created:', this.svg.node());
+        console.log('SVG empty?', this.svg.empty());
+        console.log('Container after SVG:', this.container.node().innerHTML);
         
         // Create groups for links and nodes
         this.linkGroup = this.svg.append('g').attr('class', 'links');
@@ -105,7 +110,9 @@ class D3NetworkGraph {
         this.nodeGroup.selectAll('*').remove();
         
         // Always add test elements to see if SVG is working
-        this.svg.append('circle')
+        console.log('Adding test elements...');
+        
+        const testCircle = this.svg.append('circle')
             .attr('cx', 100)
             .attr('cy', 100)
             .attr('r', 30)
@@ -113,7 +120,7 @@ class D3NetworkGraph {
             .attr('stroke', 'black')
             .attr('stroke-width', 3);
             
-        this.svg.append('text')
+        const testText = this.svg.append('text')
             .attr('x', 100)
             .attr('y', 200)
             .attr('text-anchor', 'middle')
@@ -121,6 +128,18 @@ class D3NetworkGraph {
             .style('font-size', '20px')
             .style('font-weight', 'bold')
             .text(`TEST: ${this.nodes.length} nodes, ${this.links.length} links`);
+            
+        console.log('Test circle created:', testCircle.node());
+        console.log('Test text created:', testText.node());
+        
+        // Also try direct DOM manipulation as a backup test
+        const element = document.getElementById('visualization');
+        if (element) {
+            const directDiv = document.createElement('div');
+            directDiv.innerHTML = '<div style="color: red; font-size: 20px; padding: 20px; background: yellow;">DIRECT DOM TEST - If you see this, DOM works</div>';
+            element.appendChild(directDiv);
+            console.log('Direct DOM element added');
+        }
             
         if (this.nodes.length === 0) {
             this.svg.append('text')
