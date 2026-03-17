@@ -417,7 +417,80 @@
         
         <!-- Enhanced Control Panel -->
         <div class="control-panel">
-            <!-- Multi-format controls will be inserted here by JavaScript -->
+            <!-- Multi-Format Node Creation -->
+            <div class="panel-section">
+                <h3>🌱 Add Multi-Format Knowledge</h3>
+                
+                <div class="form-group">
+                    <label for="contentType">Content Type</label>
+                    <select id="contentType" onchange="updateContentInterface()">
+                        <option value="text">📝 Text</option>
+                        <option value="markdown">📖 Markdown</option>
+                        <option value="code">💻 Code</option>
+                        <option value="link">🔗 Link</option>
+                        <option value="image">🖼️ Image</option>
+                        <option value="audio">🎵 Audio</option>
+                    </select>
+                </div>
+                
+                <div id="dynamicContentInterface">
+                    <div class="form-group">
+                        <label for="nodeContent">Content</label>
+                        <textarea id="nodeContent" placeholder="Enter your text content..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nodeTitle">Title</label>
+                    <input type="text" id="nodeTitle" placeholder="Enter concept or idea...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nodeDomain">Domain</label>
+                    <select id="nodeDomain">
+                        <option value="technology">Technology</option>
+                        <option value="science">Science</option>
+                        <option value="biology">Biology</option>
+                        <option value="art">Art</option>
+                        <option value="philosophy">Philosophy</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="economics">Economics</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nodeTags">Tags (optional)</label>
+                    <input type="text" id="nodeTags" placeholder="ai, patterns, innovation...">
+                </div>
+                
+                <button class="btn" onclick="addEnhancedNode()">
+                    ✨ Plant Knowledge Seed
+                </button>
+            </div>
+            
+            <div class="panel-section">
+                <h3>🔍 Enhanced Search</h3>
+                <div class="form-group">
+                    <input type="text" id="advancedSearch" placeholder="Search across all content types..." 
+                           oninput="performAdvancedSearch(this.value)">
+                </div>
+                
+                <div class="search-filters">
+                    <label>
+                        <input type="checkbox" id="searchInContent" checked> Content
+                    </label>
+                    <label>
+                        <input type="checkbox" id="searchInConcepts" checked> Concepts
+                    </label>
+                    <label>
+                        <input type="checkbox" id="searchInCode" checked> Code
+                    </label>
+                </div>
+                
+                <div id="searchResults"></div>
+            </div>
             
             <div class="panel-section">
                 <h3>🎨 Domain Legend</h3>
@@ -502,15 +575,180 @@
     <script src="../src/core/advanced_similarity.js"></script>
     <script src="../src/core/content-processor.js"></script>
     <script src="../src/core/idea-versioning.js"></script>
-    <script src="../phase1-demo-simple.js"></script>
+    
+    <!-- Simple integrated knowledge graph -->
+    <script>
+        // Simple Phase1KnowledgeGraph class for the interface
+        class Phase1KnowledgeGraph {
+            constructor() {
+                this.nodes = new Map();
+                this.connections = [];
+                this.similarityEngine = new AdvancedSimilarityEngine();
+                this.contentProcessor = new ContentProcessor();
+                this.versioning = new IdeaVersioning();
+                this.eventListeners = new Map();
+            }
+            
+            addNode(title, content, domain, tags = [], contentType = 'text', metadata = {}) {
+                const processedContent = this.contentProcessor.processContent(content, contentType, metadata);
+                
+                const node = {
+                    id: Math.random().toString(36).substring(2, 15),
+                    title,
+                    content,
+                    processedContent,
+                    domain,
+                    tags: [...tags, ...processedContent.extractedConcepts.slice(0, 5)],
+                    contentType,
+                    metadata,
+                    created_at: new Date()
+                };
+                
+                this.versioning.initializeNode(node);
+                this.nodes.set(node.id, node);
+                this._discoverConnections(node);
+                this.emit('nodeAdded', { node, connections: this.getNodeConnections(node.id) });
+                
+                return node;
+            }
+            
+            _discoverConnections(newNode) {
+                for (const [existingId, existingNode] of this.nodes) {
+                    if (existingId === newNode.id) continue;
+                    
+                    const analysis = this.similarityEngine.calculateSemanticSimilarity(newNode, existingNode);
+                    
+                    if (analysis.similarity > 0.2) {
+                        const connectionType = this.similarityEngine.determineConnectionType(
+                            newNode, existingNode, analysis
+                        );
+                        
+                        const explanation = this.similarityEngine.explainConnection(
+                            newNode, existingNode, connectionType, analysis
+                        );
+                        
+                        this.connections.push({
+                            source_id: newNode.id,
+                            target_id: existingId,
+                            connection_type: connectionType,
+                            strength: analysis.similarity,
+                            explanation,
+                            analysis_details: analysis.factors,
+                            shared_bridges: analysis.shared_bridges,
+                            created_at: new Date()
+                        });
+                    }
+                }
+            }
+            
+            getStats() {
+                const domains = {};
+                for (const node of this.nodes.values()) {
+                    domains[node.domain] = (domains[node.domain] || 0) + 1;
+                }
+                
+                const crossDomainConnections = this.connections.filter(c => {
+                    const source = this.nodes.get(c.source_id);
+                    const target = this.nodes.get(c.target_id);
+                    return source && target && source.domain !== target.domain;
+                }).length;
+                
+                let totalVersions = 0;
+                for (const [nodeId] of this.nodes) {
+                    totalVersions += this.versioning.getVersionHistory(nodeId).length;
+                }
+                
+                return {
+                    total_nodes: this.nodes.size,
+                    total_connections: this.connections.length,
+                    cross_domain_connections: crossDomainConnections,
+                    domains,
+                    total_versions: totalVersions
+                };
+            }
+            
+            getNodeConnections(nodeId) {
+                return this.connections.filter(c => c.source_id === nodeId || c.target_id === nodeId);
+            }
+            
+            findCrossDomainInsights() {
+                return this.connections
+                    .map(c => {
+                        const source = this.nodes.get(c.source_id);
+                        const target = this.nodes.get(c.target_id);
+                        return source && target && source.domain !== target.domain ? [source, target, c] : null;
+                    })
+                    .filter(Boolean)
+                    .sort((a, b) => b[2].strength - a[2].strength);
+            }
+            
+            searchNodes(query, options = {}) {
+                const results = [];
+                const searchTerms = query.toLowerCase().split(/\s+/);
+                
+                for (const [nodeId, node] of this.nodes) {
+                    let relevanceScore = 0;
+                    const matches = [];
+                    
+                    if (node.title.toLowerCase().includes(query.toLowerCase())) {
+                        relevanceScore += 10;
+                        matches.push({ field: 'title', snippet: node.title });
+                    }
+                    
+                    if (node.content.toLowerCase().includes(query.toLowerCase())) {
+                        relevanceScore += 5;
+                        matches.push({ field: 'content', snippet: this._getSnippet(node.content, query) });
+                    }
+                    
+                    const conceptMatches = node.processedContent.extractedConcepts
+                        .filter(concept => searchTerms.some(term => concept.includes(term)));
+                    if (conceptMatches.length > 0) {
+                        relevanceScore += conceptMatches.length * 2;
+                        matches.push({ field: 'concepts', snippet: conceptMatches.join(', ') });
+                    }
+                    
+                    if (relevanceScore > 0) {
+                        results.push({ node, relevanceScore, matches });
+                    }
+                }
+                
+                results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+                return results.slice(0, options.limit || 20);
+            }
+            
+            _getSnippet(text, query, maxLength = 100) {
+                const index = text.toLowerCase().indexOf(query.toLowerCase());
+                if (index === -1) return text.substring(0, maxLength) + '...';
+                
+                const start = Math.max(0, index - 30);
+                const end = Math.min(text.length, index + query.length + 30);
+                
+                return (start > 0 ? '...' : '') + text.substring(start, end) + (end < text.length ? '...' : '');
+            }
+            
+            on(event, callback) {
+                if (!this.eventListeners.has(event)) {
+                    this.eventListeners.set(event, []);
+                }
+                this.eventListeners.get(event).push(callback);
+            }
+            
+            emit(event, data) {
+                const listeners = this.eventListeners.get(event);
+                if (listeners) {
+                    listeners.forEach(callback => callback(data));
+                }
+            }
+        }
+    </script>
     
     <!-- Include visualization components -->
     <script src="js/graph-visualization.js"></script>
-    <script src="js/phase1-integration.js"></script>
     
     <script>
-        // Initialize the integrated Phase 2 canvas
-        let integratedCanvas;
+        // Initialize the Phase 2 system
+        let kg;
+        let canvas;
         
         // Domain colors for legend
         const domainColors = {
@@ -526,23 +764,27 @@
         };
         
         function initializePhase2() {
-            // Initialize the integrated canvas
-            integratedCanvas = new Phase1IntegratedCanvas('visualization');
-            window.integratedCanvas = integratedCanvas; // Make globally available
+            // Initialize the knowledge graph
+            kg = new Phase1KnowledgeGraph();
+            
+            // Set up event listeners
+            kg.on('nodeAdded', (data) => {
+                if (canvas) canvas.update();
+                updateStats();
+                showProcessingFeedback(data.node);
+            });
             
             // Set up initial interface state
             updateContentInterface();
             updateDomainLegend();
             
-            // Add some sample data to demonstrate Phase 1 integration
+            // Add some sample data
             setTimeout(() => {
                 addSampleData();
             }, 1000);
         }
         
         function addSampleData() {
-            const kg = integratedCanvas.kg;
-            
             // Add diverse content types to show Phase 1 integration
             kg.addNode(
                 "Neural Network Architecture",
@@ -553,26 +795,44 @@
             );
             
             kg.addNode(
-                "Code Example",
-                "function attention(query, key, value) {\\n  const scores = query.matmul(key.transpose());\\n  const weights = softmax(scores);\\n  return weights.matmul(value);\\n}",
-                "technology",
-                ["implementation"],
-                "code",
-                { language: "javascript" }
+                "Biological Neural Networks",
+                "Neurons in the brain form complex networks that process information through electrical and chemical signals, exhibiting plasticity and learning",
+                "biology",
+                ["neurons", "networks"],
+                "text"
             );
             
-            kg.addNode(
-                "Research Paper",
-                "https://arxiv.org/abs/1706.03762",
-                "science",
-                ["attention", "transformers"],
-                "link",
-                { title: "Attention Is All You Need" }
-            );
+            // Initialize canvas after we have nodes
+            if (typeof InteractiveInsightCanvas !== 'undefined') {
+                canvas = new InteractiveInsightCanvas('visualization', kg);
+                canvas.update();
+            }
         }
         
+        function updateStats() {
+            const stats = kg.getStats();
+            
+            document.getElementById('nodeCount').textContent = stats.total_nodes;
+            document.getElementById('connectionCount').textContent = stats.total_connections;
+            document.getElementById('crossDomainCount').textContent = stats.cross_domain_connections;
+            
+            // Add version stat if it doesn't exist
+            if (!document.getElementById('versionCount')) {
+                const statsBar = document.querySelector('.stats-bar');
+                const versionStat = document.createElement('div');
+                versionStat.className = 'stat-item';
+                versionStat.innerHTML = `
+                    <span>Versions:</span>
+                    <span class="stat-number" id="versionCount">${stats.total_versions || 0}</span>
+                `;
+                statsBar.appendChild(versionStat);
+            } else {
+                document.getElementById('versionCount').textContent = stats.total_versions || 0;
+            }
+        }
+
         function updateDomainLegend() {
-            const stats = integratedCanvas.kg.getStats();
+            const stats = kg.getStats();
             const legendContainer = document.getElementById('domainLegend');
             
             legendContainer.innerHTML = Object.entries(stats.domains || {})
@@ -583,9 +843,203 @@
                     </div>
                 `).join('');
         }
+
+        function updateContentInterface() {
+            const contentType = document.getElementById('contentType').value;
+            const dynamicInterface = document.getElementById('dynamicContentInterface');
+            
+            let interfaceHTML = '';
+            
+            switch (contentType) {
+                case 'text':
+                case 'markdown':
+                    interfaceHTML = `
+                        <div class="form-group">
+                            <label for="nodeContent">Content</label>
+                            <textarea id="nodeContent" placeholder="Enter your ${contentType} content..."></textarea>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'code':
+                    interfaceHTML = `
+                        <div class="form-group">
+                            <label for="codeLanguage">Programming Language</label>
+                            <select id="codeLanguage">
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="sql">SQL</option>
+                                <option value="bash">Bash</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nodeContent">Code</label>
+                            <textarea id="nodeContent" placeholder="Paste your code here..." style="font-family: 'Courier New', monospace;"></textarea>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'link':
+                    interfaceHTML = `
+                        <div class="form-group">
+                            <label for="nodeContent">URL</label>
+                            <input type="url" id="nodeContent" placeholder="https://example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkDescription">Description (optional)</label>
+                            <textarea id="linkDescription" placeholder="What is this link about?"></textarea>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'image':
+                    interfaceHTML = `
+                        <div class="form-group">
+                            <label for="nodeContent">Image Path or URL</label>
+                            <input type="text" id="nodeContent" placeholder="/path/to/image.jpg or https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="imageAlt">Alt Text</label>
+                            <input type="text" id="imageAlt" placeholder="Describe the image...">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'audio':
+                    interfaceHTML = `
+                        <div class="form-group">
+                            <label for="nodeContent">Audio Path or URL</label>
+                            <input type="text" id="nodeContent" placeholder="/path/to/audio.mp3 or https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="audioTranscript">Transcript (optional)</label>
+                            <textarea id="audioTranscript" placeholder="Transcript or description..."></textarea>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            dynamicInterface.innerHTML = interfaceHTML;
+        }
+
+        function addEnhancedNode() {
+            const contentType = document.getElementById('contentType').value;
+            const title = document.getElementById('nodeTitle').value.trim();
+            const content = document.getElementById('nodeContent').value.trim();
+            const domain = document.getElementById('nodeDomain').value;
+            const tags = document.getElementById('nodeTags').value.split(',').map(t => t.trim()).filter(t => t);
+            
+            if (!title || !content) {
+                alert('Please fill in both title and content!');
+                return;
+            }
+            
+            // Build metadata based on content type
+            const metadata = {};
+            
+            if (contentType === 'code') {
+                metadata.language = document.getElementById('codeLanguage')?.value || 'javascript';
+            } else if (contentType === 'link') {
+                metadata.description = document.getElementById('linkDescription')?.value || '';
+            } else if (contentType === 'image') {
+                metadata.alt = document.getElementById('imageAlt')?.value || '';
+            } else if (contentType === 'audio') {
+                metadata.transcript = document.getElementById('audioTranscript')?.value || '';
+            }
+            
+            // Show processing state
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '🧠 Processing...';
+            button.disabled = true;
+            
+            // Add the node
+            setTimeout(() => {
+                kg.addNode(title, content, domain, tags, contentType, metadata);
+                
+                // Clear form
+                document.getElementById('nodeTitle').value = '';
+                document.getElementById('nodeContent').value = '';
+                if (document.getElementById('nodeTags')) document.getElementById('nodeTags').value = '';
+                updateContentInterface();
+                
+                // Reset button
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 800);
+        }
+
+        function performAdvancedSearch(query) {
+            if (!query.trim()) {
+                document.getElementById('searchResults').innerHTML = '';
+                return;
+            }
+            
+            const results = kg.searchNodes(query, { limit: 5 });
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<p style="color: #718096; font-size: 0.875rem;">No matches found</p>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = results.map(result => `
+                <div class="search-result" onclick="focusNode('${result.node.id}')" style="cursor: pointer;">
+                    <strong>${result.node.title}</strong> (${result.node.contentType})
+                    <div style="color: #718096;">
+                        ${result.matches.map(m => `${m.field}: "${m.snippet}"`).join('; ')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function focusNode(nodeId) {
+            if (canvas) {
+                canvas.focusNode(nodeId);
+            }
+        }
+
+        function showProcessingFeedback(node) {
+            const feedback = document.createElement('div');
+            feedback.className = 'processing-feedback';
+            feedback.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 1rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                z-index: 1000;
+                max-width: 300px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            feedback.innerHTML = `
+                <h4>🧠 AI Processing Complete!</h4>
+                <p><strong>${node.title}</strong></p>
+                <p>📁 Type: ${node.contentType}</p>
+                <p>🏷️ Extracted: ${node.processedContent.extractedConcepts.slice(0, 3).join(', ')}...</p>
+                <p>🔗 Found ${kg.getNodeConnections(node.id).length} connections</p>
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(feedback)) {
+                        document.body.removeChild(feedback);
+                    }
+                }, 300);
+            }, 4000);
+        }
         
         function resetView() {
-            integratedCanvas.visualization.resetView();
+            if (canvas) canvas.resetView();
         }
         
         function toggleFullscreen() {
@@ -598,10 +1052,12 @@
         }
         
         function exportGraph() {
-            const data = integratedCanvas.kg.exportData({
-                includeVersions: true,
-                includeConnections: true
-            });
+            const data = {
+                nodes: Array.from(kg.nodes.values()),
+                connections: kg.connections,
+                stats: kg.getStats(),
+                exported_at: new Date().toISOString()
+            };
             
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
