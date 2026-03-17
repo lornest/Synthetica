@@ -18,7 +18,13 @@ class D3NetworkGraph {
             throw new Error(`Element with id '${containerId}' not found`);
         }
         
+        // Clear any existing content first - this might be the issue!
+        element.innerHTML = '';
+        console.log('Cleared existing HTML content from container');
+        
         this.container = d3.select(`#${containerId}`);
+        console.log('D3 container selected:', this.container.node());
+        console.log('Container empty?', this.container.empty());
         this.width = 800;
         this.height = 600;
         
