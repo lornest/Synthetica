@@ -58,6 +58,8 @@ class D3NetworkGraph {
     }
     
     updateData(nodes, connections) {
+        console.log('D3NetworkGraph.updateData called with:', nodes.length, 'nodes,', connections.length, 'connections');
+        
         this.nodes = nodes.map(node => ({
             ...node,
             x: node.x || Math.random() * this.width,
@@ -74,6 +76,9 @@ class D3NetworkGraph {
             crossDomain: this.isCrossDomain(conn, nodes)
         }));
         
+        console.log('Mapped nodes:', this.nodes.length);
+        console.log('Mapped links:', this.links.length);
+        
         this.render();
     }
     
@@ -84,10 +89,23 @@ class D3NetworkGraph {
     }
     
     render() {
+        console.log('D3NetworkGraph.render called');
+        console.log('SVG element:', this.svg.node());
+        console.log('Container dimensions:', this.container.node()?.getBoundingClientRect());
+        
         // Clear existing elements
         this.linkGroup.selectAll('*').remove();
         this.nodeGroup.selectAll('*').remove();
         
+        // Always add a test element to see if SVG is working
+        this.svg.append('text')
+            .attr('x', this.width / 2)
+            .attr('y', 50)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#e53e3e')
+            .style('font-size', '14px')
+            .text(`D3.js Test: ${this.nodes.length} nodes, ${this.links.length} links`);
+            
         if (this.nodes.length === 0) {
             this.svg.append('text')
                 .attr('x', this.width / 2)
