@@ -51,10 +51,12 @@ const server = http.createServer((req, res) => {
     
     // Route handling
     if (filePath === './') {
-        filePath = './web/insight-canvas.html'; // Default to new interactive canvas
+        filePath = './web/phase2-integrated-canvas.html'; // Default to Phase 2 integrated canvas
+    } else if (filePath === './phase1') {
+        filePath = './web/insight-canvas.html'; // Phase 1 D3.js canvas
     } else if (filePath === './classic') {
         filePath = './web/index.html'; // Original simple interface
-    } else if (filePath === './demo.js' || filePath === './enhanced_demo.js') {
+    } else if (filePath === './demo.js' || filePath === './enhanced_demo.js' || filePath === './phase1-demo-simple.js') {
         // Serve demo files from root
         filePath = '.' + req.url;
     } else if (filePath.startsWith('./web/')) {
@@ -79,17 +81,19 @@ server.listen(PORT, () => {
     console.log('=' .repeat(50));
     console.log(`📍 Server running at: http://localhost:${PORT}`);
     console.log('🌐 Available Interfaces:');
-    console.log(`   • Interactive Canvas: http://localhost:${PORT}/ (default)`);
-    console.log(`   • Classic Interface: http://localhost:${PORT}/classic`);
+    console.log(`   🚀 Phase 2 Integrated: http://localhost:${PORT}/ (default)`);
+    console.log(`   🎨 Phase 1 Canvas: http://localhost:${PORT}/phase1`);
+    console.log(`   📝 Classic Interface: http://localhost:${PORT}/classic`);
     console.log('');
-    console.log('🛠️  Enhanced Features:');
-    console.log('   ✨ Interactive D3.js network visualization');
-    console.log('   🧠 Advanced AI-powered connection discovery');  
-    console.log('   🎨 Domain-colored clustering and cross-domain highlighting');
-    console.log('   🔍 Real-time node exploration and synthesis suggestions');
-    console.log('   📊 Live statistics and connection strength analysis');
+    console.log('🛠️  Phase 2 Features:');
+    console.log('   🌟 Complete Phase 1 integration with visualization');
+    console.log('   📝 Multi-format content processing (text, markdown, code, links, images, audio)');
+    console.log('   📚 Advanced version control with branching and merging');
+    console.log('   🧠 Enhanced AI discovery with cross-domain insights');
+    console.log('   🎨 Beautiful D3.js visualization with real-time updates');
+    console.log('   🔍 Advanced search across all content types and history');
     console.log('');
-    console.log('🌱 The Interactive Insight Canvas is ready for exploration!');
+    console.log('🌱 Phase 2: Where Foundation Meets Visual Magic!');
     console.log('Press Ctrl+C to stop the server');
 });
 
