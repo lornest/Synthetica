@@ -7,8 +7,6 @@
 
 class D3NetworkGraph {
     constructor(containerId) {
-        console.log('D3NetworkGraph constructor called with:', containerId);
-        
         if (typeof d3 === 'undefined') {
             throw new Error('D3.js is not loaded');
         }
@@ -18,28 +16,18 @@ class D3NetworkGraph {
             throw new Error(`Element with id '${containerId}' not found`);
         }
         
-        // Clear any existing content first - this might be the issue!
+        // Clear any existing content first
         element.innerHTML = '';
-        console.log('Cleared existing HTML content from container');
-        
         this.container = d3.select(`#${containerId}`);
-        console.log('D3 container selected:', this.container.node());
-        console.log('Container empty?', this.container.empty());
         this.width = 800;
         this.height = 600;
         
         // Create SVG
-        console.log('About to create SVG...');
-        console.log('Container node before SVG:', this.container.node());
-        
         this.svg = this.container.append('svg')
             .attr('width', '100%')
             .attr('height', '100%')
-            .style('background', 'rgba(255,0,0,0.1)'); // Red tint to see SVG area
-            
-        console.log('SVG created:', this.svg.node());
-        console.log('SVG empty?', this.svg.empty());
-        console.log('Container after SVG:', this.container.node().innerHTML);
+            .attr('viewBox', `0 0 ${this.width} ${this.height}`)
+            .style('background', 'transparent');
         
         // Create groups for links and nodes
         this.linkGroup = this.svg.append('g').attr('class', 'links');
@@ -70,8 +58,6 @@ class D3NetworkGraph {
     }
     
     updateData(nodes, connections) {
-        console.log('D3NetworkGraph.updateData called with:', nodes.length, 'nodes,', connections.length, 'connections');
-        
         this.nodes = nodes.map(node => ({
             ...node,
             x: node.x || Math.random() * this.width,
@@ -88,9 +74,6 @@ class D3NetworkGraph {
             crossDomain: this.isCrossDomain(conn, nodes)
         }));
         
-        console.log('Mapped nodes:', this.nodes.length);
-        console.log('Mapped links:', this.links.length);
-        
         this.render();
     }
     
@@ -101,45 +84,76 @@ class D3NetworkGraph {
     }
     
     render() {
-        console.log('D3NetworkGraph.render called');
-        console.log('SVG element:', this.svg.node());
-        console.log('Container dimensions:', this.container.node()?.getBoundingClientRect());
-        
         // Clear existing elements
         this.linkGroup.selectAll('*').remove();
         this.nodeGroup.selectAll('*').remove();
         
-        // Always add test elements to see if SVG is working
-        console.log('Adding test elements...');
-        
-        const testCircle = this.svg.append('circle')
-            .attr('cx', 100)
-            .attr('cy', 100)
-            .attr('r', 30)
-            .attr('fill', 'red')
-            .attr('stroke', 'black')
-            .attr('stroke-width', 3);
-            
-        const testText = this.svg.append('text')
-            .attr('x', 100)
-            .attr('y', 200)
-            .attr('text-anchor', 'middle')
-            .attr('fill', 'blue')
-            .style('font-size', '20px')
-            .style('font-weight', 'bold')
-            .text(`TEST: ${this.nodes.length} nodes, ${this.links.length} links`);
-            
-        console.log('Test circle created:', testCircle.node());
-        console.log('Test text created:', testText.node());
-        
-        // Also try direct DOM manipulation as a backup test
-        const element = document.getElementById('visualization');
-        if (element) {
-            const directDiv = document.createElement('div');
-            directDiv.innerHTML = '<div style="color: red; font-size: 20px; padding: 20px; background: yellow;">DIRECT DOM TEST - If you see this, DOM works</div>';
-            element.appendChild(directDiv);
-            console.log('Direct DOM element added');
+        if (this.nodes.length === 0) {
+            this.svg.append('text')
+                .attr('x', this.width / 2)
+                .attr('y', this.height / 2)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#718096')
+                .style('font-size', '1.25rem')
+                .text('🌱 Add knowledge nodes and watch connections grow!');
+            return;
         }
+        
+        // Draw links
+        const links = this.linkGroup.selectAll('line')
+            .data(this.links)
+            .enter()
+            .append('line')
+            .attr('stroke', d => d.crossDomain ? '#e53e3e' : '#cbd5e0')
+            .attr('stroke-width', d => Math.max(1, d.strength * 10))
+            .attr('stroke-opacity', 0.6)
+            .attr('x1', d => {
+                const source = this.nodes.find(n => n.id === d.source);
+                return source ? source.x : 0;
+            })
+            .attr('y1', d => {
+                const source = this.nodes.find(n => n.id === d.source);
+                return source ? source.y : 0;
+            })
+            .attr('x2', d => {
+                const target = this.nodes.find(n => n.id === d.target);
+                return target ? target.x : 0;
+            })
+            .attr('y2', d => {
+                const target = this.nodes.find(n => n.id === d.target);
+                return target ? target.y : 0;
+            });
+        
+        // Draw nodes
+        const nodes = this.nodeGroup.selectAll('circle')
+            .data(this.nodes)
+            .enter()
+            .append('circle')
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
+            .attr('r', 20)
+            .attr('fill', d => this.domainColors[d.domain] || this.domainColors.general)
+            .attr('stroke', '#ffffff')
+            .attr('stroke-width', 2)
+            .style('cursor', 'pointer');
+        
+        // Add node labels
+        const labels = this.nodeGroup.selectAll('text')
+            .data(this.nodes)
+            .enter()
+            .append('text')
+            .attr('x', d => d.x)
+            .attr('y', d => d.y + 35)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#2d3748')
+            .style('font-size', '0.75rem')
+            .style('font-weight', '500')
+            .text(d => d.title.length > 15 ? d.title.substring(0, 15) + '...' : d.title);
+        
+        // Add tooltips
+        nodes.append('title')
+            .text(d => `${d.title}\nDomain: ${d.domain}\nConnections: ${this.links.filter(l => l.source === d.id || l.target === d.id).length}`);
+    }
             
         if (this.nodes.length === 0) {
             this.svg.append('text')
