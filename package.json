@@ -2,14 +2,11 @@
   "name": "synthetica",
   "version": "0.1.0",
   "description": "🌱 A Living Knowledge Garden for Human-AI Collaborative Discovery",
-  "main": "server.js",
   "scripts": {
     "start": "vite preview",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "demo": "node demo.js",
-    "legacy": "node server.js"
+    "preview": "vite preview"
   },
   "keywords": [
     "ai",

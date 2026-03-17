@@ -1,6 +1,8 @@
 # Synthetica Development Log
 *Real-time updates on building the Living Knowledge Garden*
 
+> **Note:** The project has since been ported to React + Vite. Legacy files referenced below (`server.js`, `demo.js`, `enhanced_demo.js`, `phase1-demo-simple.js`, `web/`, `src/core/knowledge_graph.py`, `src/core/advanced_similarity.js`, `src/core/enhanced-knowledge-graph.js`) have been removed. The current app entry point is `npm run dev`.
+
 ## 🚀 Development Session 1 - March 16, 2026
 
 ### Starting Phase 1: Foundation Components

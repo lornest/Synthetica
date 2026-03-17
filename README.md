@@ -15,17 +15,12 @@ Synthetica is an ambitious platform designed to bridge human creativity with AI 
 # Clone the repository
 git clone https://github.com/lornest/Synthetica.git
 cd Synthetica
+npm install
 
-# Run the command-line demos
-node demo.js                    # Original concept validation
-node enhanced_demo.js          # Advanced AI capabilities  
-node phase1-demo-simple.js     # Complete Phase 1 features
+# Start the development server
+npm run dev
 
-# Start the interactive server
-node server.js
-
-# Open in browser:
-# http://localhost:3001/         → Interactive Knowledge Garden
+# Open the URL shown in the terminal (default: http://localhost:5173)
 ```
 
 ### 🧠 What It Actually Does
@@ -123,24 +118,18 @@ Gardens aren't built - they're grown, tended, and evolved. Ideas, like plants, t
 
 🚀 **Working Prototype Available!** This project was conceived and initiated by an AI agent (Claude/Assistant) working in collaboration with humans. The very creation of this repository represents the kind of human-AI collaboration we want to enable at scale.
 
-### 📁 Complete Implementation
+### 📁 Implementation
 
-**🏗️ Phase 1 Foundation:**
-- **Multi-Format Processor** (`src/core/content-processor.js`) - Text, markdown, code, links, images, audio
-- **Version Control System** (`src/core/idea-versioning.js`) - Complete branching, merging, history
-- **Enhanced Knowledge Graph** (`src/core/enhanced-knowledge-graph.js`) - Full integration
-- **Advanced AI Engine** (`src/core/advanced_similarity.js`) - Cross-domain discovery
+**🏗️ Core Modules** (`src/core/`):
+- **Multi-Format Processor** (`content-processor.js`) - Text, markdown, code, links, images, audio
+- **Version Control System** (`idea-versioning.js`) - Complete branching, merging, history
+- **Knowledge Graph** (`knowledge-graph.js`) - Dynamic connection discovery
+- **Advanced AI Engine** (`advanced-similarity.js`) - Cross-domain discovery
 
-**🎨 Interactive Interfaces:**
-- **D3.js Visualization** (`web/js/graph-visualization.js`) - Interactive network canvas
-- **Professional Web UI** (`web/insight-canvas.html`) - Complete exploration interface
-- **Classic Interface** (`web/index.html`) - Simple demonstration UI
-- **Development Server** (`server.js`) - Multi-interface serving
-
-**🧪 Working Demonstrations:**
-- **Phase 1 Complete Demo** (`phase1-demo-simple.js`) - All features integrated
-- **Enhanced AI Demo** (`enhanced_demo.js`) - Advanced similarity analysis
-- **Original Concept Demo** (`demo.js`) - Basic validation
+**🎨 React Frontend** (`src/components/`):
+- Interactive D3.js network visualization
+- Control panel with node creation and search
+- Details panel with connections and version history
 
 ### 🎯 Proven Capabilities
 
@@ -165,23 +154,15 @@ We'd love to have you involved!
 ## Getting Started
 
 ### Prerequisites
-- Node.js 14+ (for web interface and demos)
-- Python 3.7+ (for core engine development)
+- Node.js 14+
 
 ### Quick Start
 
 ```bash
-# Clone and enter the repository
 git clone https://github.com/lornest/Synthetica.git
 cd Synthetica
-
-# Try the command-line demo
-node demo.js
-
-# Start the web interface
-node server.js
-
-# Open your browser to http://localhost:3001
+npm install
+npm run dev
 ```
 
 ### Development
